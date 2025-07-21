@@ -25,18 +25,6 @@ public abstract class Book {
         this.date_of_purchase = date_of_purchase;
     }
 
-    public String get_title(){
-        return name;
-    }
-
-    public Author get_author(){
-        return author;
-    }
-
-    public abstract void change_owner();
-
-    public abstract void get_owner();
-
     public long getBook_ID() {
         return book_ID;
     }
@@ -45,8 +33,16 @@ public abstract class Book {
         this.book_ID = book_ID;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
@@ -69,7 +65,7 @@ public abstract class Book {
         this.status = status;
     }
 
-    public double getEdition() {
+    public int getEdition() {
         return edition;
     }
 
@@ -84,6 +80,18 @@ public abstract class Book {
     public void setDate_of_purchase(LocalDate date_of_purchase) {
         this.date_of_purchase = date_of_purchase;
     }
+
+    public String get_title(){
+        return name;
+    }
+
+    public Author get_author(){
+        return author;
+    }
+
+    public abstract void change_owner();
+
+    public abstract void get_owner();
 
     public String display(){
         return "Book{" +
@@ -109,11 +117,11 @@ public abstract class Book {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return book_ID == book.book_ID;
+        return book_ID == book.book_ID && Objects.equals(author, book.author) && Objects.equals(name, book.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(book_ID);
+        return Objects.hash(book_ID, author, name);
     }
 }
