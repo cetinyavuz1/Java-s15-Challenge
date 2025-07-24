@@ -11,9 +11,9 @@ public class Library {
     private Set<Reader> readers;
     private Map<Reader, Set<Book>> readerAndBooks;
 
-    public Library(Set<Book> books, Set<Reader> readers) {
+    public Library(Set<Book> books) {
         this.books = books;
-        this.readers = readers;
+        this.readers = new HashSet<>();
         this.readerAndBooks = new HashMap<>();
     }
 
@@ -40,10 +40,13 @@ public class Library {
         for(Book item : books){
             if(item.get_author().equals(author)){
                 authorBooks.add(item);
-                return authorBooks;
             }
         }
-        return null;
+        if(!authorBooks.isEmpty()){
+            return authorBooks;
+        }else {
+            return null;
+        }
     }
 
     public Reader get_reader(long id){
@@ -86,9 +89,12 @@ public class Library {
         readerAndBooks.get(reader).remove(book);
     }
 
+    public void deleteBook(Book book){
+        books.remove(book);
+    }
+
     public void show_book(){
         System.out.println(books);
     }
-
 
 }
