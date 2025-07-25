@@ -14,8 +14,13 @@ public abstract class Book {
     private Status status;
     private int edition;
     private LocalDate date_of_purchase;
+    private String categoryName;
 
-    public Book(long book_ID, Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase) {
+    public Book(String name){
+        this.name = name;
+    }
+
+    public Book(long book_ID, Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
         this.book_ID = book_ID;
         this.author = author;
         this.name = name;
@@ -23,6 +28,7 @@ public abstract class Book {
         this.status = status;
         this.edition = edition;
         this.date_of_purchase = date_of_purchase;
+        this.categoryName = categoryName;
     }
 
     public long getBook_ID() {
@@ -81,6 +87,14 @@ public abstract class Book {
         this.date_of_purchase = date_of_purchase;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public String get_title(){
         return name;
     }
@@ -89,21 +103,17 @@ public abstract class Book {
         return author;
     }
 
-    public abstract void change_owner();
-
-    public abstract void get_owner();
-
-    public String display(){
-        return "Book{" +
-                "book_ID=" + book_ID +
-                ", author='" + author + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", status=" + status +
-                ", edition=" + edition +
-                ", date_of_purchase=" + date_of_purchase +
-                '}';
-    }
+//    public String display(){
+//        return "Book{" +
+//                "book_ID=" + book_ID +
+//                ", author='" + author + '\'' +
+//                ", name='" + name + '\'' +
+//                ", price=" + price +
+//                ", status=" + status +
+//                ", edition=" + edition +
+//                ", date_of_purchase=" + date_of_purchase +
+//                '}';
+//    }
 
     public void update_status(){
         if(status == Status.AVAILABLE){
@@ -117,11 +127,25 @@ public abstract class Book {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return book_ID == book.book_ID && Objects.equals(author, book.author) && Objects.equals(name, book.name);
+        return book_ID == book.book_ID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(book_ID, author, name);
+        return Objects.hashCode(book_ID);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "book_ID=" + book_ID +
+                ", author=" + author +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", status=" + status +
+                ", edition=" + edition +
+                ", date_of_purchase=" + date_of_purchase +
+                ", categoryName='" + categoryName + '\'' +
+                '}';
     }
 }
