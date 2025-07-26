@@ -81,18 +81,6 @@ public class Library {
         }
     }
 
-    public Reader getReaderByBookId(long id){
-        for(Map.Entry<Reader, Set<Book>> item : readerAndBooks.entrySet()){
-            for(Book book : item.getValue()){
-                if(book.getBook_ID() == id){
-                    return item.getKey();
-                }
-            }
-        }
-        System.out.println("Girilen ID'li kitaba sahip üye bulunamadı.");
-        return null;
-    }
-
     public Reader getReaderByBookName(String bookName){
         for(Map.Entry<Reader, Set<Book>> item : readerAndBooks.entrySet()){
             for(Book book : item.getValue()){
@@ -102,6 +90,16 @@ public class Library {
             }
         }
         System.out.println("Girilen kitaba sahip üye bulunamadı.");
+        return null;
+    }
+
+    public Reader getReaderByName(String name){
+        for(Reader item : readers){
+            if(item.getName().equals(name)){
+                return item;
+            }
+        }
+        System.out.println("Yeni Üye");
         return null;
     }
 
@@ -131,23 +129,26 @@ public class Library {
             return;
         }
 
-        if (books.contains(book)) {
-            books.remove(book);
+        if (book.getStatus().equals(Status.AVAILABLE)) {
             readerAndBooks.get(reader).add(book);
             reader.setBalance(reader.getBalance() - BORROW_FEE);
+            book.update_status();
             System.out.println(book.getName() + " kitabı başarıyla ödünç verildi.");
+        } else if(book.getStatus().equals(Status.UNAVAILABLE)){
+            System.out.println("Aradığınız kitap şu an başka bir üyemizdedir. Daha sonra tekrar deneyiniz.");
         }
     }
 
     public void take_back_book(Reader reader, Book book){
-        books.add(book);
         readerAndBooks.get(reader).remove(book);
         reader.setBalance(reader.getBalance() + BORROW_FEE);
+        book.update_status();
         System.out.println(book.getName() + " kitabı iade edildi.");
     }
 
     public void deleteBook(Book book){
         books.remove(book);
+        System.out.println(book.getName() + " kitabı başarıyla silindi.");
     }
 
     public void show_book(){
@@ -156,10 +157,23 @@ public class Library {
             bookNames.add(item.getName());
         }
         System.out.println(bookNames);
-        System.out.println(readerAndBooks);
     }
 
     Scanner scanner = new Scanner(System.in);
+
+    public int getIntInput(){
+        int input;
+        while(true){
+            try{
+                input = scanner.nextInt();
+                scanner.nextLine();
+                return input;
+            } catch (InputMismatchException e){
+                System.out.println("Lütfen geçerli bir seçim yapınız.");
+                scanner.nextLine();
+            }
+        }
+    }
 
     public void librarySystem(){
         while(true){
@@ -170,21 +184,28 @@ public class Library {
             System.out.println("4 - Kitap ara");
             System.out.println("5 - Kitap ekle-sil");
             System.out.println("6 - Kitap bilgisi güncelle");
+            System.out.println("7 - Kitap-Üye eşleşmesini göster");
             System.out.println("0 - Uygulamayı durdur");
-            int sayi = scanner.nextInt();
-            scanner.nextLine();
+            int sayi = getIntInput();
             switch (sayi){
                 case 1:
                     System.out.println("Kitabı ödünç alacak üyenin ismini giriniz");
                     String borrowName = scanner.nextLine();
-                    System.out.println("Kitabı ödünç alacak üyenin bakiyesini giriniz");
-                    int bakiye = scanner.nextInt();
-                    scanner.nextLine();
-                    Reader reader = new Reader(borrowName, bakiye);
-                    System.out.println("Ödünç almak istediğiniz kitabın ismini giriniz.");
-                    String bookName = scanner.nextLine();
-                    Book borrowedBook = getBooksByName(bookName);
-                    lend_book(reader, borrowedBook);
+                    if(getReaderByName(borrowName) != null){
+                        Reader reader = getReaderByName(borrowName);
+                        System.out.println("Ödünç almak istediğiniz kitabın ismini giriniz.");
+                        String bookName = scanner.nextLine();
+                        Book borrowedBook = getBooksByName(bookName);
+                        lend_book(reader, borrowedBook);
+                    }else {
+                        System.out.println("Kitabı ödünç alacak üyenin bakiyesini giriniz");
+                        int bakiye = getIntInput();
+                        Reader reader = new Reader(borrowName, bakiye);
+                        System.out.println("Ödünç almak istediğiniz kitabın ismini giriniz.");
+                        String bookName = scanner.nextLine();
+                        Book borrowedBook = getBooksByName(bookName);
+                        lend_book(reader, borrowedBook);
+                    }
                     break;
                 case 2:
                     System.out.println("İade edilecek kitabın ismini giriniz");
@@ -209,12 +230,11 @@ public class Library {
                     System.out.println("2 - İsime göre");
                     System.out.println("3 - Yazara göre");
                     System.out.println("4 - Kategoriye göre");
-                    int aramaSayi = scanner.nextInt();
-                    scanner.nextLine();
+                    int aramaSayi = getIntInput();
                     switch (aramaSayi){
                         case 1:
                             System.out.println("ID giriniz.");
-                            int aramaId = scanner.nextInt();
+                            int aramaId = getIntInput();
                             System.out.println(getBooksById(aramaId));
                             break;
                         case 2:
@@ -233,9 +253,8 @@ public class Library {
                             System.out.println("1 - Classic");
                             System.out.println("2 - Magazine");
                             System.out.println("3 - Science Fiction");
-                            System.out.println("4 - Study Book");
-                            int aramaKategori = scanner.nextInt();
-                            scanner.nextLine();
+                            System.out.println("4 - Fantasy");
+                            int aramaKategori = getIntInput();
                             switch (aramaKategori){
                                 case 1:
                                     System.out.println(getBooksByCategory("Classic"));
@@ -247,19 +266,21 @@ public class Library {
                                     System.out.println(getBooksByCategory("Science Fiction"));
                                     break;
                                 case 4:
-                                    System.out.println(getBooksByCategory("Study Book"));
+                                    System.out.println(getBooksByCategory("Fantasy"));
                                     break;
                                 default:
                                     System.out.println("Lütfen geçerli bir seçim yapınız.");
                             }
+                            break;
+                        default:
+                            System.out.println("Lütfen geçerli bir seçim yapınız");
                             break;
                     }
                     break;
                 case 5:
                     System.out.println("1 - Kitap ekle");
                     System.out.println("2 - Kitap sil");
-                    int ekleSil = scanner.nextInt();
-                    scanner.nextLine();
+                    int ekleSil = getIntInput();
                     switch (ekleSil){
                         case 1:
                             System.out.println("Kitap ismi giriniz");
@@ -269,10 +290,8 @@ public class Library {
                             Author author = new Author(authorName);
                             System.out.println("Fiyat giriniz");
                             String newPrice = scanner.nextLine();
-
                             System.out.println("Edition giriniz");
-                            int newEdition = scanner.nextInt();
-                            scanner.nextLine();
+                            int newEdition = getIntInput();
                             System.out.println("Kategori ismi giriniz");
                             String newCategory = scanner.nextLine();
                             switch (newCategory){
@@ -291,9 +310,9 @@ public class Library {
                                     new_book(newScienceFiction);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
-                                case "Study Books":
-                                    Book newStudyBook = new StudyBooks(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
-                                    new_book(newStudyBook);
+                                case "Fantasy":
+                                    Book newFantasy = new Fantasy(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
+                                    new_book(newFantasy);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
                             }
@@ -302,9 +321,16 @@ public class Library {
                             System.out.println("Silmek istediğiniz kitap ismini girin.");
                             String deleteBookName = scanner.nextLine();
                             Book deleteBookObj = getBooksByName(deleteBookName);
+                            if(deleteBookObj == null){
+                                break;
+                            }
                             deleteBook(deleteBookObj);
-                            System.out.println(deleteBookName + " kitabı başarıyla silindi.");
+                            break;
+                        default:
+                            System.out.println("Lütfen geçerli bir seçim yapınız.");
+                            break;
                     }
+                    break;
                 case 6:
                     System.out.println("Güncellemek istediğiniz kitabın ismini giriniz");
                     String updateBookName = scanner.nextLine();
@@ -316,8 +342,7 @@ public class Library {
                     System.out.println("4 - Edition güncelle");
                     System.out.println("5 - Satın alım tarihi güncelle");
                     System.out.println("6 - Kategori güncelle");
-                    int updateSayi = scanner.nextInt();
-                    scanner.nextLine();
+                    int updateSayi = getIntInput();
                     switch (updateSayi){
                         case 1:
                             System.out.println("Yeni ismi giriniz.");
@@ -337,8 +362,7 @@ public class Library {
                             break;
                         case 4:
                             System.out.println("Yeni edition giriniz.");
-                            int updateEdition = scanner.nextInt();
-                            scanner.nextLine();
+                            int updateEdition = getIntInput();
                             updateBook.setEdition(updateEdition);
                             System.out.println("Edition başarıyla güncellendi.");
                             break;
@@ -352,10 +376,16 @@ public class Library {
                             System.out.println("Lütfen geçerli bir seçim yapınız.");
                             break;
                     }
-
-            }
-            if(sayi == 0 ){
-                break;
+                    break;
+                case 7:
+                    System.out.println(readerAndBooks);
+                    break;
+                case 0:
+                    System.out.println("Uygulama durduruluyor. İyi günler dileriz.");
+                    return;
+                default:
+                    System.out.println("Lütfen geçerli bir seçim yapınız.");
+                    break;
             }
         }
     }
