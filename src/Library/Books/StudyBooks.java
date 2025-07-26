@@ -10,8 +10,8 @@ public class StudyBooks extends Book{
         super(name);
     }
 
-    public StudyBooks(Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
-        super(author, name, price, status, edition, date_of_purchase, categoryName);
+    public StudyBooks(Author author, String name, double price, int edition, LocalDate date_of_purchase, String categoryName) {
+        super(author, name, price, edition, date_of_purchase, categoryName);
     }
 
     @Override

@@ -21,12 +21,12 @@ public abstract class Book {
         this.name = name;
     }
 
-    public Book(Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
+    public Book(Author author, String name, double price, int edition, LocalDate date_of_purchase, String categoryName) {
         this.book_ID = idCounter++;
         this.author = author;
         this.name = name;
         this.price = price;
-        this.status = status;
+        this.status = Status.AVAILABLE;
         this.edition = edition;
         this.date_of_purchase = date_of_purchase;
         this.categoryName = categoryName;

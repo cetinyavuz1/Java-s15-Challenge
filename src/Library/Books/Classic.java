@@ -5,12 +5,13 @@ import Library.enums.Status;
 
 import java.time.LocalDate;
 
-public class ScienceFiction extends Book{
-    public ScienceFiction(String name) {
+public class Classic extends Book{
+
+    public Classic(String name) {
         super(name);
     }
 
-    public ScienceFiction(Author author, String name, double price, int edition, LocalDate date_of_purchase, String categoryName) {
+    public Classic(Author author, String name, double price,int edition, LocalDate date_of_purchase, String categoryName) {
         super(author, name, price, edition, date_of_purchase, categoryName);
     }
 
