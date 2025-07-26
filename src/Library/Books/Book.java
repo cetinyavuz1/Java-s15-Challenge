@@ -104,18 +104,6 @@ public abstract class Book {
         return author;
     }
 
-//    public String display(){
-//        return "Book{" +
-//                "book_ID=" + book_ID +
-//                ", author='" + author + '\'' +
-//                ", name='" + name + '\'' +
-//                ", price=" + price +
-//                ", status=" + status +
-//                ", edition=" + edition +
-//                ", date_of_purchase=" + date_of_purchase +
-//                '}';
-//    }
-
     public void update_status(){
         if(status == Status.AVAILABLE){
             status = Status.UNAVAILABLE;
