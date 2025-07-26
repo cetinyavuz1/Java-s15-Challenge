@@ -30,4 +30,21 @@ public class Author extends Person {
         return super.whoyouare();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+        Author author = (Author) o;
+        return this.getName().equals(author.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getName().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

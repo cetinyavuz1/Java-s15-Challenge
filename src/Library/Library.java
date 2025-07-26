@@ -1,13 +1,11 @@
 package Library;
 
-import Library.Books.Book;
-import Library.Books.Journals;
-import Library.Books.Magazines;
+import Library.Books.*;
 import Library.People.Author;
 import Library.People.Person;
 import Library.People.Reader;
-
-import java.sql.SQLOutput;
+import Library.enums.Status;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Library {
@@ -28,6 +26,7 @@ public class Library {
                 return item;
             }
         }
+        System.out.println("Girilen ID ile bir kitap bulunamadı.");
         return null;
     }
 
@@ -37,6 +36,7 @@ public class Library {
                 return item;
             }
         }
+        System.out.println("Girilen isim ile bir kitap bulunamadı.");
         return null;
     }
 
@@ -48,6 +48,7 @@ public class Library {
                 }
             }
         }
+        System.out.println("Girilen isim ile bir kitap bulunamadı.");
         return null;
     }
 
@@ -61,6 +62,7 @@ public class Library {
         if(!authorBooks.isEmpty()){
             return authorBooks;
         }else {
+            System.out.println("Girilen yazarın kitapları bulunamadı.");
             return null;
         }
     }
@@ -75,6 +77,7 @@ public class Library {
         if(!categoryBooks.isEmpty()){
             return categoryBooks;
         }else {
+            System.out.println("Girilen kategoride kitap bulunamadı.");
             return null;
         }
     }
@@ -87,6 +90,7 @@ public class Library {
                 }
             }
         }
+        System.out.println("Girilen ID'li kitaba sahip üye bulunamadı.");
         return null;
     }
 
@@ -98,6 +102,7 @@ public class Library {
                 }
             }
         }
+        System.out.println("Girilen kitaba sahip üye bulunamadı.");
         return null;
     }
 
@@ -160,12 +165,12 @@ public class Library {
     public void librarySystem(){
         while(true){
             System.out.println("Lütfen yapmak istediğiniz işlemi seçiniz");
-            System.out.println("Kitap ödünç vermek için 1 tuşuna basınız");
-            System.out.println("Ödünç verilen kitabı almak için 2 tuşuna basınız");
-            System.out.println("Tüm kitapları görmek için 3 tuşuna basınız");
-            System.out.println("Sistemde kitap aramak için 4 tuşuna basınız");
-            System.out.println("Kitap eklemek veya silmek için 5 tuşuna basınız");
-            System.out.println("Uygulamayı durdurmak için 0 tuşuna basınız");
+            System.out.println("1 - Kitap ödünç ver");
+            System.out.println("2 - Kitap geri al");
+            System.out.println("3 - Tüm kitapları göster");
+            System.out.println("4 - Kitap ara");
+            System.out.println("5 - Kitap ekle-sil");
+            System.out.println("0 - Uygulamayı durdur");
             int sayi = scanner.nextInt();
             scanner.nextLine();
             switch (sayi){
@@ -199,9 +204,91 @@ public class Library {
                 case 3:
                     show_book();
                     break;
+                case 4:
+                    System.out.println("1 - ID'ye göre");
+                    System.out.println("2 - İsime göre");
+                    System.out.println("3 - Yazara göre");
+                    System.out.println("4 - Kategoriye göre");
+                    int aramaSayi = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (aramaSayi){
+                        case 1:
+                            System.out.println("ID giriniz.");
+                            int aramaId = scanner.nextInt();
+                            System.out.println(getBooksById(aramaId));
+                            break;
+                        case 2:
+                            System.out.println("Kitap ismi giriniz.");
+                            String aramaName = scanner.nextLine();
+                            System.out.println(getBooksByName(aramaName));
+                            break;
+                        case 3:
+                            System.out.println("Yazar ismi giriniz.");
+                            String aramaYazar = scanner.nextLine();
+                            Author author = new Author(aramaYazar);
+                            System.out.println(getBooksByAuthor(author));
+                            break;
+                        case 4:
+                            System.out.println("Kategori ismi giriniz");
+                            String aramaKategori = scanner.nextLine();
+                            System.out.println(getBooksByCategory(aramaKategori));
+                            break;
+                    }
+                    break;
+                case 5:
+                    System.out.println("1 - Kitap ekle");
+                    System.out.println("2 - Kitap sil");
+                    int ekleSil = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (ekleSil){
+                        case 1:
+                            System.out.println("Kitap ismi giriniz");
+                            String newBookName = scanner.nextLine();
+                            System.out.println("Yazar ismi giriniz");
+                            String authorName = scanner.nextLine();
+                            Author author = new Author(authorName);
+                            System.out.println("Fiyat giriniz");
+                            String newPrice = scanner.nextLine();
 
+                            System.out.println("Edition giriniz");
+                            int newEdition = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.println("Kategori ismi giriniz");
+                            String newCategory = scanner.nextLine();
+                            switch (newCategory){
+                                case "Journals":
+                                    Book newJournal = new Journals(author, newBookName, Double.parseDouble(newPrice), Status.AVAILABLE, newEdition, LocalDate.now(), newCategory);
+                                    new_book(newJournal);
+                                    System.out.println(newBookName + " kitabı başarıyla eklendi.");
+                                    break;
+                                case "Magazines":
+                                    Book newMaganize = new Magazines(author, newBookName, Double.parseDouble(newPrice), Status.AVAILABLE, newEdition, LocalDate.now(), newCategory);
+                                    new_book(newMaganize);
+                                    System.out.println(newBookName + " kitabı başarıyla eklendi.");
+                                    break;
+                                case "Science Fiction":
+                                    Book newScienceFiction = new ScienceFiction(author, newBookName, Double.parseDouble(newPrice), Status.AVAILABLE, newEdition, LocalDate.now(), newCategory);
+                                    new_book(newScienceFiction);
+                                    System.out.println(newBookName + " kitabı başarıyla eklendi.");
+                                    break;
+                                case "Study Books":
+                                    Book newStudyBook = new StudyBooks(author, newBookName, Double.parseDouble(newPrice), Status.AVAILABLE, newEdition, LocalDate.now(), newCategory);
+                                    new_book(newStudyBook);
+                                    System.out.println(newBookName + " kitabı başarıyla eklendi.");
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            System.out.println("Silmek istediğiniz kitap ismini girin.");
+                            String deleteBookName = scanner.nextLine();
+                            Book deleteBookObj = getBooksByName(deleteBookName);
+                            deleteBook(deleteBookObj);
+                            System.out.println(deleteBookName + " kitabı başarıyla silindi.");
+                    }
+            }
+            if(sayi == 0 ){
+                break;
             }
         }
     }
-
 }

@@ -11,8 +11,8 @@ public class Journals extends Book{
         super(name);
     }
 
-    public Journals(long book_ID, Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
-        super(book_ID, author, name, price, status, edition, date_of_purchase, categoryName);
+    public Journals(Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
+        super(author, name, price, status, edition, date_of_purchase, categoryName);
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public abstract class Book {
+    public static int idCounter = 0;
     private long book_ID;
     private Author author;
     private String name;
@@ -20,8 +21,8 @@ public abstract class Book {
         this.name = name;
     }
 
-    public Book(long book_ID, Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
-        this.book_ID = book_ID;
+    public Book(Author author, String name, double price, Status status, int edition, LocalDate date_of_purchase, String categoryName) {
+        this.book_ID = idCounter++;
         this.author = author;
         this.name = name;
         this.price = price;
@@ -127,12 +128,12 @@ public abstract class Book {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return book_ID == book.book_ID;
+        return book_ID == book.book_ID && Objects.equals(name, book.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(book_ID);
+        return Objects.hash(book_ID, name);
     }
 
     @Override
