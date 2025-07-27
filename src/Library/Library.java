@@ -189,31 +189,41 @@ public class Library {
             int sayi = getIntInput();
             switch (sayi){
                 case 1:
+                    System.out.println("0 - Menüye dön");
                     System.out.println("Kitabı ödünç alacak üyenin ismini giriniz");
                     String borrowName = scanner.nextLine();
+                    if(borrowName.equals("0")) break;
                     if(getReaderByName(borrowName) != null){
                         Reader reader = getReaderByName(borrowName);
+                        System.out.println("0 - Menüye dön");
                         System.out.println("Ödünç almak istediğiniz kitabın ismini giriniz.");
                         String bookName = scanner.nextLine();
+                        if(bookName.equals("0")) break;
                         Book borrowedBook = getBooksByName(bookName);
                         lend_book(reader, borrowedBook);
                     }else {
+                        System.out.println("0 - Menüye dön");
                         System.out.println("Kitabı ödünç alacak üyenin bakiyesini giriniz");
                         int bakiye = getIntInput();
+                        if(bakiye == 0) break;
                         Reader reader = new Reader(borrowName, bakiye);
+                        System.out.println("0 - Menüye dön");
                         System.out.println("Ödünç almak istediğiniz kitabın ismini giriniz.");
                         String bookName = scanner.nextLine();
+                        if(bookName.equals("0")) break;
                         Book borrowedBook = getBooksByName(bookName);
                         lend_book(reader, borrowedBook);
                     }
                     break;
                 case 2:
+                    System.out.println("0 - Menüye dön");
                     System.out.println("İade edilecek kitabın ismini giriniz");
                     String takeBackBook = scanner.nextLine();
+                    if(takeBackBook.equals("0")) break;
                     Reader takeBackReader = getReaderByBookName(takeBackBook);
                     Book takeBackBookName = getBooksFromReadersList(takeBackBook);
                     if (takeBackBookName == null) {
-                        System.out.println("Böyle bir kitap sistemde bulunamadı.");
+
                         break;
                     }
                     if (takeBackReader == null) {
@@ -230,21 +240,29 @@ public class Library {
                     System.out.println("2 - İsime göre");
                     System.out.println("3 - Yazara göre");
                     System.out.println("4 - Kategoriye göre");
+                    System.out.println("0 - Menüye dön");
                     int aramaSayi = getIntInput();
+                    if(aramaSayi == 0) break;
                     switch (aramaSayi){
                         case 1:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("ID giriniz.");
                             int aramaId = getIntInput();
+                            if(aramaId == 0) break;
                             System.out.println(getBooksById(aramaId));
                             break;
                         case 2:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Kitap ismi giriniz.");
                             String aramaName = scanner.nextLine();
+                            if(aramaName.equals("0")) break;
                             System.out.println(getBooksByName(aramaName));
                             break;
                         case 3:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Yazar ismi giriniz.");
                             String aramaYazar = scanner.nextLine();
+                            if(aramaYazar.equals("0")) break;
                             Author author = new Author(aramaYazar);
                             System.out.println(getBooksByAuthor(author));
                             break;
@@ -254,7 +272,9 @@ public class Library {
                             System.out.println("2 - Magazine");
                             System.out.println("3 - Science Fiction");
                             System.out.println("4 - Fantasy");
+                            System.out.println("0 - Menüye dön");
                             int aramaKategori = getIntInput();
+                            if(aramaKategori == 0) break;
                             switch (aramaKategori){
                                 case 1:
                                     System.out.println(getBooksByCategory("Classic"));
@@ -280,20 +300,32 @@ public class Library {
                 case 5:
                     System.out.println("1 - Kitap ekle");
                     System.out.println("2 - Kitap sil");
+                    System.out.println("0 - Menüye dön");
                     int ekleSil = getIntInput();
+                    if(ekleSil == 0) break;
                     switch (ekleSil){
                         case 1:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Kitap ismi giriniz");
                             String newBookName = scanner.nextLine();
+                            if(newBookName.equals("0")) break;
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Yazar ismi giriniz");
                             String authorName = scanner.nextLine();
+                            if(authorName.equals("0")) break;
                             Author author = new Author(authorName);
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Fiyat giriniz");
                             String newPrice = scanner.nextLine();
+                            if(newPrice.equals("0")) break;
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Edition giriniz");
                             int newEdition = getIntInput();
+                            if(newEdition == 0) break;
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Kategori ismi giriniz");
                             String newCategory = scanner.nextLine();
+                            if(newCategory.equals("0")) break;
                             switch (newCategory){
                                 case "Classic":
                                     Book newClassic = new Classic(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
@@ -320,8 +352,10 @@ public class Library {
                             }
                             break;
                         case 2:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Silmek istediğiniz kitap ismini girin.");
                             String deleteBookName = scanner.nextLine();
+                            if(deleteBookName.equals("0")) break;
                             Book deleteBookObj = getBooksByName(deleteBookName);
                             if(deleteBookObj == null){
                                 break;
@@ -334,26 +368,35 @@ public class Library {
                     }
                     break;
                 case 6:
+                    System.out.println("0 - Menüye dön");
                     System.out.println("Güncellemek istediğiniz kitabın ismini giriniz");
                     String updateBookName = scanner.nextLine();
+                    if(updateBookName.equals("0")) break;
                     Book updateBook = getBooksByName(updateBookName);
+                    if (updateBook == null) break;
                     System.out.println("Güncellemek istediğiniz bilgiyi seçiniz");
                     System.out.println("1 - İsim güncelle");
                     System.out.println("2 - Fiyat güncelle");
                     System.out.println("3 - Status güncelle");
                     System.out.println("4 - Edition güncelle");
                     System.out.println("5 - Satın alım tarihi güncelle");
+                    System.out.println("0 - Menüye dön");
                     int updateSayi = getIntInput();
+                    if(updateSayi == 0) break;
                     switch (updateSayi){
                         case 1:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Yeni ismi giriniz.");
                             String updateName = scanner.nextLine();
+                            if(updateName.equals("0")) break;
                             updateBook.setName(updateName);
                             System.out.println("İsim başarıyla güncellendi.");
                             break;
                         case 2:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Yeni fiyat giriniz.");
                             String updatePrice = scanner.nextLine();
+                            if(updatePrice.equals("0")) break;
                             updateBook.setPrice(Double.parseDouble(updatePrice));
                             System.out.println("Fiyat başarıyla güncellendi.");
                             break;
@@ -362,19 +405,25 @@ public class Library {
                             System.out.println("Yeni status " + updateBook.getStatus());
                             break;
                         case 4:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Yeni edition giriniz.");
                             int updateEdition = getIntInput();
+                            if(updateEdition == 0) break;
                             updateBook.setEdition(updateEdition);
                             System.out.println("Edition başarıyla güncellendi.");
                             break;
                         case 5:
+                            System.out.println("0 - Menüye dön");
                             System.out.println("Yeni tarih giriniz");
                             System.out.println("Yıl");
                             int updateYear = getIntInput();
+                            if(updateYear == 0) break;
                             System.out.println("Ay");
                             int updateMonth = getIntInput();
+                            if(updateMonth == 0) break;
                             System.out.println("Gün");
                             int updateDay = getIntInput();
+                            if(updateDay == 0) break;
                             updateBook.setDate_of_purchase(LocalDate.of(updateYear, updateMonth, updateDay));
                             System.out.println("Tarih başarıyla güncellendi");
                         default:

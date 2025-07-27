@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public abstract class Book {
-    public static int idCounter = 0;
+    public static int idCounter = 1;
     private long book_ID;
     private Author author;
     private String name;
