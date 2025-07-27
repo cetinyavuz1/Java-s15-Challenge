@@ -31,7 +31,7 @@ public class Library {
 
     public Book getBooksByName(String bookName){
         for(Book item : books){
-            if(item.get_title().equals(bookName)){
+            if(item.get_title().equalsIgnoreCase(bookName)){
                 return item;
             }
         }
@@ -42,7 +42,7 @@ public class Library {
     public Book getBooksFromReadersList(String bookName){
         for(Map.Entry<Reader, Set<Book>> item : readerAndBooks.entrySet()){
             for(Book elm : item.getValue()){
-                if(elm.getName().equals(bookName)){
+                if(elm.getName().equalsIgnoreCase(bookName)){
                     return elm;
                 }
             }
@@ -84,7 +84,7 @@ public class Library {
     public Reader getReaderByBookName(String bookName){
         for(Map.Entry<Reader, Set<Book>> item : readerAndBooks.entrySet()){
             for(Book book : item.getValue()){
-                if(book.get_title().equals(bookName)){
+                if(book.get_title().equalsIgnoreCase(bookName)){
                     return item.getKey();
                 }
             }
@@ -315,6 +315,8 @@ public class Library {
                                     new_book(newFantasy);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
+                                default:
+                                    System.out.println("Geçersiz kategori");
                             }
                             break;
                         case 2:
@@ -341,7 +343,6 @@ public class Library {
                     System.out.println("3 - Status güncelle");
                     System.out.println("4 - Edition güncelle");
                     System.out.println("5 - Satın alım tarihi güncelle");
-                    System.out.println("6 - Kategori güncelle");
                     int updateSayi = getIntInput();
                     switch (updateSayi){
                         case 1:
@@ -367,11 +368,15 @@ public class Library {
                             System.out.println("Edition başarıyla güncellendi.");
                             break;
                         case 5:
-                            System.out.println("Yeni kategori giriniz.");
-                            String updateCategory = scanner.nextLine();
-                            updateBook.setCategoryName(updateCategory);
-                            System.out.println("Kategori başarıyla güncellendi.");
-                            break;
+                            System.out.println("Yeni tarih giriniz");
+                            System.out.println("Yıl");
+                            int updateYear = getIntInput();
+                            System.out.println("Ay");
+                            int updateMonth = getIntInput();
+                            System.out.println("Gün");
+                            int updateDay = getIntInput();
+                            updateBook.setDate_of_purchase(LocalDate.of(updateYear, updateMonth, updateDay));
+                            System.out.println("Tarih başarıyla güncellendi");
                         default:
                             System.out.println("Lütfen geçerli bir seçim yapınız.");
                             break;
