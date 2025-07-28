@@ -1,6 +1,7 @@
 package Library.Books;
 
 import Library.People.Author;
+import Library.enums.Categories;
 import Library.enums.Status;
 
 import java.time.LocalDate;
@@ -15,13 +16,13 @@ public abstract class Book {
     private Status status;
     private int edition;
     private LocalDate date_of_purchase;
-    private String categoryName;
+    private Categories categoryName;
 
     public Book(String name){
         this.name = name;
     }
 
-    public Book(Author author, String name, double price, int edition, LocalDate date_of_purchase, String categoryName) {
+    public Book(Author author, String name, double price, int edition, LocalDate date_of_purchase, Categories categoryName) {
         this.book_ID = idCounter++;
         this.author = author;
         this.name = name;
@@ -88,11 +89,11 @@ public abstract class Book {
         this.date_of_purchase = date_of_purchase;
     }
 
-    public String getCategoryName() {
+    public Categories getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName(String categoryName) {
+    public void setCategoryName(Categories categoryName) {
         this.categoryName = categoryName;
     }
 

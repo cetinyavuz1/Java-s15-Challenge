@@ -3,6 +3,7 @@ package Library;
 import Library.Books.*;
 import Library.People.Author;
 import Library.People.Reader;
+import Library.enums.Categories;
 import Library.enums.Status;
 import java.time.LocalDate;
 import java.util.*;
@@ -66,7 +67,7 @@ public class Library {
         }
     }
 
-    public Set<Book> getBooksByCategory(String category){
+    public Set<Book> getBooksByCategory(Categories category){
         Set<Book> categoryBooks = new HashSet<>();
         for(Book item : books){
             if(item.getCategoryName().equals(category)){
@@ -277,16 +278,16 @@ public class Library {
                             if(aramaKategori == 0) break;
                             switch (aramaKategori){
                                 case 1:
-                                    System.out.println(getBooksByCategory("Classic"));
+                                    System.out.println(getBooksByCategory(Categories.CLASSIC));
                                     break;
                                 case 2:
-                                    System.out.println(getBooksByCategory("Magazine"));
+                                    System.out.println(getBooksByCategory(Categories.MAGAZINES));
                                     break;
                                 case 3:
-                                    System.out.println(getBooksByCategory("Science Fiction"));
+                                    System.out.println(getBooksByCategory(Categories.SCIENCEFICTION));
                                     break;
                                 case 4:
-                                    System.out.println(getBooksByCategory("Fantasy"));
+                                    System.out.println(getBooksByCategory(Categories.FANTASY));
                                     break;
                                 default:
                                     System.out.println("Lütfen geçerli bir seçim yapınız.");
@@ -326,24 +327,24 @@ public class Library {
                             System.out.println("Kategori ismi giriniz");
                             String newCategory = scanner.nextLine();
                             if(newCategory.equals("0")) break;
-                            switch (newCategory){
-                                case "Classic":
-                                    Book newClassic = new Classic(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
+                            switch (newCategory.toLowerCase()){
+                                case "classic":
+                                    Book newClassic = new Classic(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), Categories.CLASSIC);
                                     new_book(newClassic);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
-                                case "Magazines":
-                                    Book newMaganize = new Magazines(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
+                                case "magazines":
+                                    Book newMaganize = new Magazines(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), Categories.MAGAZINES);
                                     new_book(newMaganize);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
-                                case "Science Fiction":
-                                    Book newScienceFiction = new ScienceFiction(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
+                                case "science fiction":
+                                    Book newScienceFiction = new ScienceFiction(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), Categories.SCIENCEFICTION);
                                     new_book(newScienceFiction);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
-                                case "Fantasy":
-                                    Book newFantasy = new Fantasy(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), newCategory);
+                                case "fantasy":
+                                    Book newFantasy = new Fantasy(author, newBookName, Double.parseDouble(newPrice), newEdition, LocalDate.now(), Categories.FANTASY);
                                     new_book(newFantasy);
                                     System.out.println(newBookName + " kitabı başarıyla eklendi.");
                                     break;
